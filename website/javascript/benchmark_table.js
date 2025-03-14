@@ -214,7 +214,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     title: "Avg. Acc",
                     field: "avg_acc",
                     widthGrow: 1.5,
-                    minWidth: 160
+                    minWidth: 90
                 },
                 {
                     title: "Physics",
