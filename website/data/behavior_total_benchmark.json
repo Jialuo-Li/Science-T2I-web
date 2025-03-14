@@ -1,20 +1,26 @@
 [
   {
-    "model": "LLaVA-OV-7B",
-    "frames": "64",
-    "tpf": "16",
-    "avg_acc": 42.92,
-    "avg_score": 2.21,
-    "detailed_acc": 44.51,
-    "detailed_score": 2.29,
-    "camera_acc": 43.71,
-    "camera_score": 2.30,
-    "short_acc": 33.71,
-    "short_score": 1.74,
-    "background_acc": 45.10,
-    "background_score": 2.31,
-    "object_acc": 47.57,
-    "object_score": 2.43
+    "model": "Human Eval",
+    "avg_acc": 87.01,
+    "avg_phy": 87.67,
+    "avg_chem": 75.85,
+    "avg_bio": 95.29,
+    "avg_me": 98.15,
+    "avg_di": 65.87,
+    "avg_el": 95.63,
+    "avg_so": 86.11,
+    "avg_im": 77.78,
+    "avg_ev": 100.00,
+    "avg_ab": 66.67,
+    "avg_li": 82.08,
+    "avg_fr": 80.95,
+    "avg_sc": 90.74,
+    "avg_ri": 94.62,
+    "avg_ru": 92.86,
+    "avg_lr": 96.89,
+    "avg_wr": 99.56,
+    "avg_bu": 74.55,
+    "avg_ga": 92.99
   }
 ]
 

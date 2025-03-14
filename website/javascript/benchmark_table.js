@@ -211,57 +211,40 @@ document.addEventListener('DOMContentLoaded', function () {
                     minWidth: 160
                 },
                 {
-                    title: "# F",
-                    field: "frames",
-                    widthGrow: 0.9,
-                    minWidth: 50
+                    title: "Avg. Acc",
+                    field: "avg_acc",
+                    widthGrow: 1.5,
+                    minWidth: 160
                 },
                 {
-                    title: "TPF",
-                    field: "tpf",
-                    widthGrow: 0.9,
-                    minWidth: 90
-                },
-                {
-                    title: "Avg. VDCscore",
+                    title: "Physics",
                     columns: [
-                        { title: "Acc.", field: "avg_acc", hozAlign: "center", formatter: colorFormatterAvg, minWidth: 50 },
-                        { title: "Score", field: "avg_score", hozAlign: "center", formatter: colorFormatterAvg, minWidth: 70 },
+                        { title: "GA", field: "acc_ga", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 50 },
+                        { title: "SO", field: "acc_so", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
+                        { title: "ME", field: "acc_me", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 50 },
+                        { title: "AB", field: "acc_ab", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
+                        { title: "BU", field: "acc_bu", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 50 },
+                        { title: "DI", field: "acc_di", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
+                        { title: "EL", field: "acc_el", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 50 },
+                        { title: "EV", field: "acc_ev", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
+                        { title: "LI", field: "acc_li", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 50 },
                     ]
                 },
                 {
-                    title: "Detailed",
+                    title: "Chemistry",
                     columns: [
-                        { title: "Acc.", field: "detailed_acc", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 50 },
-                        { title: "Score", field: "detailed_score", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
+                        { title: "RU", field: "acc_ru", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
+                        { title: "IM", field: "acc_im", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 70 },
+                        { title: "FR", field: "acc_fr", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
                     ]
                 },
                 {
-                    title: "Camera",
+                    title: "Biology",
                     columns: [
-                        { title: "Acc.", field: "camera_acc", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 50 },
-                        { title: "Score", field: "camera_score", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 70 },
-                    ]
-                },
-                {
-                    title: "Short",
-                    columns: [
-                        { title: "Acc.", field: "short_acc", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 50 },
-                        { title: "Score", field: "short_score", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 70 },
-                    ]
-                },
-                {
-                    title: "Background",
-                    columns: [
-                        { title: "Acc.", field: "background_acc", hozAlign: "center", formatter: colorFormatterTrans, minWidth: 50 },
-                        { title: "Score", field: "background_score", hozAlign: "center", formatter: colorFormatterTrans, minWidth: 70 },
-                    ]
-                },
-                {
-                    title: "Object",
-                    columns: [
-                        { title: "Acc.", field: "object_acc", hozAlign: "center", formatter: colorFormatterObject, minWidth: 50 },
-                        { title: "Score", field: "object_score", hozAlign: "center", formatter: colorFormatterObject, minWidth: 70 },
+                        { title: "LR", field: "acc_lr", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 50 },
+                        { title: "WR", field: "acc_wr", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 70 },
+                        { title: "SC", field: "acc_sc", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 50 },
+                        { title: "RI", field: "acc_ri", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 70 },
                     ]
                 }
             ];
