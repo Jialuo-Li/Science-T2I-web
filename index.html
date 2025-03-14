@@ -229,6 +229,151 @@
         </div>
     </section>
 
+    <section class="section" id="embodied_agent_interface_detail">
+        <div class="container is-max-desktop">
+          <div class="hero-body">
+      
+              <h2 class="title is-2" style="text-align: center;">Science-T2I Leaderboard</h2>
+              <div class="content">
+                <div class="has-text-centered">
+                  <p>Accuracy scores on Video-MME are presented for short, medium, and long videos, taking the corresponding subtitles as input or not.
+                  </p>
+                </div>
+                <table class="js-sort-table" id="results" style="margin-left: auto; margin-right: auto;">
+                  <thead>
+                    <tr>
+                      <th rowspan="2" class="no-sort" style="vertical-align: middle; width: 50px;" data-js-sort-colNum="none">
+                          <span style="color: black;">#</span>
+                      </th>
+                      <th rowspan="2" class="no-sort" style="vertical-align: middle; width: 180px;" data-js-sort-colNum="none">
+                          <span style="color: black;">Model</span>
+                      </th>
+                      <th rowspan="2" style="vertical-align: middle; width: 100px;" data-js-sort-colNum="none">
+                          <span style="color: black;">Overall</span>
+                      </th>
+                      <th colspan="10" style="vertical-align: middle; width: 300px;" data-js-sort-colNum="12">
+                          <span style="color: black;">Physics</span>
+                      </th>
+                      <th colspan="4" style="vertical-align: middle; width: 300px;" data-js-sort-colNum="16">
+                          <span style="color: black;">Chemistry</span>
+                      </th>
+                      <th colspan="5" style="vertical-align: middle; width: 300px;" data-js-sort-colNum="21">
+                          <span style="color: black;">Biology</span>
+                      </th>
+                    </tr>
+                    <tr>
+                        <th data-js-sort-colNum="3">
+                            <span style="color: black;">GA</span>
+                        </th>
+                        <th data-js-sort-colNum="4">
+                          <span style="color: black;">SO</span>
+                        </th>
+                        <th data-js-sort-colNum="5">
+                          <span style="color: black;">ME</span>
+                        </th>
+                        <th data-js-sort-colNum="6">
+                            <span style="color: black;">AB</span>
+                        </th>
+                        <th data-js-sort-colNum="7">
+                            <span style="color: black;">BU</span>
+                        </th>
+                        <th data-js-sort-colNum="8">
+                            <span style="color: black;">DI</span>
+                        </th>
+                        <th data-js-sort-colNum="9">
+                            <span style="color: black;">EL</span>
+                        </th>
+                        <th data-js-sort-colNum="10">
+                            <span style="color: black;">EV</span>
+                        </th>
+                        <th data-js-sort-colNum="11">
+                            <span style="color: black;">LI</span>
+                        </th>
+                        <th data-js-sort-colNum="12">
+                          <span style="color: black;">Avg</span>
+                        </th>
+                        <th data-js-sort-colNum="13">
+                            <span style="color: black;">RU</span>
+                        </th>
+                        <th data-js-sort-colNum="14">
+                          <span style="color: black;">IM</span>
+                        </th>
+                        <th data-js-sort-colNum="15">
+                          <span style="color: black;">FR</span>
+                        </th>
+                        <th data-js-sort-colNum="16">
+                          <span style="color: black;">Avg</span>
+                        </th>
+                        <th data-js-sort-colNum="17">
+                          <span style="color: black;">LR</span>
+                        </th>
+                        <th data-js-sort-colNum="18">
+                          <span style="color: black;">WR</span>
+                        </th>
+                        <th data-js-sort-colNum="19">
+                          <span style="color: black;">SC</span>
+                        </th>
+                        <th data-js-sort-colNum="20">
+                          <span style="color: black;">RI</span>
+                        </th>
+                        <th data-js-sort-colNum="20">
+                          <span style="color: black;">Avg</span>
+                        </th>
+                    </tr>
+                  </thead>
+      
+                  <tbody>
+      
+                    <tr>
+                      <td style="vertical-align: middle;"></td>
+                      <td style="text-align: left; padding: 2px 10px;">
+                        <b class="">
+                          <a href="https://storage.googleapis.com/deepmind-media/gemini/gemini_v1_5_report.pdf" class="ext-link" style="font-size: 16px; margin-left: 5px;">Gemini 1.5 Pro</a>
+                          <p style="font-size: 12px; margin-left: 5px; color: #858383;">Google</p>
+                        </b>
+                      </td>
+                      <td style="vertical-align: middle;">111</td>
+                      <td style="vertical-align: middle;">111</td>
+                      <td style="vertical-align: middle;">111</td>
+                      <td style="vertical-align: middle;"><b class="">75.0</b></td>
+                      <td style="vertical-align: middle;"><b class="">81.3</b></td>
+                      <td style="vertical-align: middle;">81.7</td>
+                      <td style="vertical-align: middle;">84.5</td>
+                      <td style="vertical-align: middle;">74.3</td>
+                      <td style="vertical-align: middle;">81.0</td>
+                      <td style="vertical-align: middle;">67.4</td>
+                      <td style="vertical-align: middle;">77.4</td>
+                      <td style="vertical-align: middle;">77.4</td>
+                      <td style="vertical-align: middle;">77.4</td>
+                      <td style="vertical-align: middle;">77.4</td>
+                      <td style="vertical-align: middle;">77.4</td>
+                      <td style="vertical-align: middle;">77.4</td>
+                      <td style="vertical-align: middle;">77.4</td>       
+                      <td style="vertical-align: middle;">77.4</td>       
+                      <td style="vertical-align: middle;">77.4</td>       
+                      <td style="vertical-align: middle;">77.4</td>                            
+                    </tr>
+                
+                  </tbody>                                                   
+                </table> 
+      
+                <p style="margin-top: -20px;">
+                  <strong style="color: #22a56e; font-size: 18px;" >Green date</strong> indicates the newly added/updated models  &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                  - indicates closed-source models
+                </p>
+      
+                <p style=" text-align: left;">
+                  1* The short and medium videos are sampled at 1 fps, while the long videos are sampled at 0.5 fps to ensure the stability of the API.
+                  </br>2* The videos less than 384 seconds are sampled at 1 fps, and for those longer than 384 seconds, we extract 384 frames uniformly. All the frames are resized to 512x512 resolution to fit within GPT-4o’s max context length.
+                  </br>3* The videos are sampled at 2 fps, and the upper limit is 768 frames.
+                </p>
+              </div>
+          </div>
+        </div>
+      </section>
+
+
+
     <!-- Leaderboard-->
     <section class="section" id="embodied_agent_interface_detail">
         <div class="container is-max-desktop">
