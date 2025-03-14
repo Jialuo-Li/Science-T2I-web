@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AuroraCap: Efficient, Performant Video Detailed Captioning and a New Benchmark</title>
+    <!-- consider to add our icon here -->
+    <!-- <link rel="icon" href="" type="image/icon type"> -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <script
+        src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+    <link rel="stylesheet" href="website/css/bulma.min.css">
+    <link rel="stylesheet" href="website/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="website/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="website/css/fontawesome.all.min.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="./website/javascript/bulma-carousel.min.js"></script>
+    <script src="./website/javascript/bulma-slider.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+
+    <link href="https://unpkg.com/tabulator-tables@5.5.2/dist/css/tabulator_bootstrap4.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://unpkg.com/tabulator-tables@5.5.2/dist/js/tabulator.min.js"></script>
+    <script defer src="website/javascript/fontawesome.all.min.js"></script>
+    <!-- <script src="website/javascript/peity-vanilla.js"></script> -->
+
+
+    <!-- below we load some js scripts -->
+    <script src="website/javascript/benchmark_table.js" type="module"></script>
+
+    <link rel="stylesheet" href="website/css/index.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C7GJ4FYMY9"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-C7GJ4FYMY9');
+    </script>
+
+    <!-- MathJax script -->
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+    <script type="text/javascript">
+        MathJax.Hub.Config({
+            tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+
+    <noscript>
+        <p><img alt="Clicky" width="1" height="1" src="//in.getclicky.com/101339888ns.gif" /></p>
+    </noscript>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        var toggles = document.querySelectorAll('.toggle-section');
+        toggles.forEach(function(toggle) {
+            toggle.addEventListener('click', function() {
+            var content = document.getElementById(toggle.getAttribute('aria-controls'));
+            var toggleIcon = toggle.children[1].children[0];
+            content.classList.toggle('is-active');
+            if (content.classList.contains('is-active')) {
+                toggleIcon.style.transition = 'transform 0.3s ease';
+                toggleIcon.style.transform = 'rotate(180deg)';
+            } else {
+                toggleIcon.style.transition = 'transform 0.3s ease';
+                toggleIcon.style.transform = 'rotate(0deg)';
+            }
+            });
+        });
+        });
+      </script>
+
+    <style>
+        .collapse-content {
+          display: none;
+          margin-top: 10px;
+        }
+        .collapse-content.is-active {
+          display: block;
+        }
+        /* .toggle-section .icon.is-small {
+          transition: transform 0.3s ease;
+        } */
+        /* .toggle-section .fa-angle-up {
+          transform: rotate(180deg);
+        } */
+      </style>
+</head>
+
+<body>
+
+    
+    <!-- Title. -->
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container is-max-desktop">
+                <div class="columns is-centered">
+                    <div class="column has-text-centered">
+                        <h1 class="title is-1 publication-title is-bold">
+                            <!-- <img src="website/img/mint-leaf-logo.png" alt="logo" width="40" height="40" /> -->
+                            AuroraCap: Efficient, Performant Video Detailed Captioning and a New Benchmark
+                        </h1>
+                        <p style="color: darkred; font-weight: bold;">A more efficient multimodal large language model series.</p>
+                        <div class="is-size-5 publication-authors">
+                            <span class="author-block">
+                              <a href="https://rese1f.github.io/">Wenhao Chai</a><sup>1, 2</sup>,</span>
+                            <span class="author-block">
+                              <a href="https://espere-1119-song.github.io/"> Enxin Song</a><sup></sup>,</span>
+                            <span class="author-block">
+                              <a href="https://yilundu.github.io/"> Yilun Du</a><sup>4</sup>,
+                            </span>
+                            <span class="author-block">
+                              <a href="https://cs.stanford.edu/~chenlin/"> Chenlin Meng</a><sup>2, 3</sup>,
+                            </span>
+                          </div>
+                
+                          <div class="is-size-5 publication-authors">
+                            <span class="author-block">
+                              <a href="https://scholar.google.com/citations?user=WjF1dugAAAAJ">Vashisht Madhavan</a><sup>2</sup>,
+                            </span>
+                            <span class="author-block">
+                              <a href="https://omerbt.github.io/"> Omer Bar-Tal</a><sup>2</sup>,
+                            </span>
+                            <span class="author-block">
+                              <a href="https://people.ece.uw.edu/hwang/">Jenq-Neng Hwang</a><sup>1</sup>,
+                            </span>
+                          </div>
+                
+                          <div class="is-size-5 publication-authors">
+                            <span class="author-block">
+                              <a href="https://www.sainingxie.com/">Saining Xie</a><sup>5</sup>,
+                            </span>
+                            <span class="author-block">
+                              <a href="https://nlp.stanford.edu/~manning/"> Christopher D. Manning</a><sup>3</sup>,
+                            </span>
+                          </div>
+                          
+                
+                          <div class="is-size-5 publication-authors">
+                            <span class="author-block"><sup>1</sup>University of Washington,</span>
+                            <span class="author-block"><sup>2</sup>Pika Lab,</span>
+                            <span class="author-block"><sup>3</sup>Stanford University,</span>
+                            <span class="author-block"><sup>4</sup>Harvard University,</span>
+                            <span class="author-block"><sup>5</sup>New York University</span>
+                          </div>
+                          <!-- <div class="'is-size-5 publication-authors">
+                            <span class="author-block"><sup>†</sup>Equal contribution</span>
+                          </div>
+                          <div class="'is-size-4 publication-authors">
+                            <span class="author-block" style="color: darkred; font-weight: bold;">NeurIPS 2024 D&B (Oral)</span>
+                          </div> -->
+
+                        <div class="column has-text-centered">
+                            <div class="publication-links">
+                                <!-- PDF Link. -->
+                                 <!-- <span class="link-block">
+                                    <a class="btn btn-outline-dark"
+                                     role="button">
+                                    &nbsp;
+                                        <i class="fas fa-file-pdf"></i>
+                                        <span>&nbsp;&nbsp;Paper (Coming Soon)</span>
+                                    </a> &nbsp;&nbsp;
+                                 </span> -->
+                                <span class="link-block">
+                                    <a href="https://arxiv.org/abs/2410.03051" class="btn btn-outline-dark"
+                                        role="button">
+                                        <span class="icon">
+                                            <i class="ai ai-arxiv"></i>
+                                        </span>
+                                        <span>arXiv</span>
+                                    </a> &nbsp;&nbsp;
+                                </span>
+                                <!-- Code Link. -->
+                                <span class="link-block">
+                                    <a href="https://github.com/rese1f/aurora" class="btn btn-outline-dark" role="button">
+                                        <span class="icon">
+                                            <i class="fab fa-github"></i>
+                                        </span>
+                                        <span>Code</span>
+                                    </a> &nbsp;&nbsp;
+
+                                </span>
+
+                                <!-- Model Link. -->
+                                <span class="link-block">
+                                    <a href="https://huggingface.co/collections/wchai/auroracap-66d117ffe13bedda96702013" class="btn btn-outline-dark" role="button">
+                                        <span class="icon" style="display: inline-flex; align-items: center;">
+                                            <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="width: 20px; height: 18px; margin-right: 5px;">
+                                        </span>
+                                        <span>Model</span>
+                                    </a> &nbsp;&nbsp;
+                                </span>
+
+                                <!-- Benchmark Link. -->
+                                <span class="link-block">
+                                    <a href="https://huggingface.co/datasets/wchai/Video-Detailed-Caption" class="btn btn-outline-dark" role="button" style="display: inline-flex; align-items: center;">
+                                        <span class="icon" style="display: inline-flex; align-items: center;">
+                                            <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="width: 20px; height: 18px; margin-right: 5px;">
+                                        </span>
+                                        <span>VDC Benchmark</span>
+                                    </a> &nbsp;&nbsp;
+                                </span>
+                                                                                   
+                                
+                                <!-- Data Link. -->
+                                <span class="link-block">
+                                    <a href="https://huggingface.co/datasets/wchai/AuroraCap-trainset" class="btn btn-outline-dark" role="button">
+                                        <span class="icon" style="display: inline-flex; align-items: center;">
+                                            <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="width: 20px; height: 18px; margin-right: 5px;">
+                                        </span>
+                                        <span>Data</span>
+                                    </a> &nbsp;&nbsp;
+                                </span>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="hero teaser">
+        <div class="container is-max-desktop">
+          <div class="hero-body">
+              <video id="teaser" autoplay muted loop playsinline controls width="100%">
+                  <!-- <source src="./website/videos/eai-video-v2.mov" type="video/quicktime"> -->
+                  <source src="./website/videos/teaser.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+              </video>
+          </div>
+        </div>
+      </section>
+
+
+
+    <!-- Leaderboard-->
+    <section class="section" id="embodied_agent_interface_detail">
+        <div class="container is-max-desktop">
+            <div class="hero-body">
+                <h2 class="title is-2" style="text-align: center;">Video Detail Caption Leaderboard</h2>
+                <br>
+                <div class="content has-text-justified">
+                    <div class="has-text-centered">
+                        <h4 class="title is-4">🤩Welcome! Submit your scores now and watch the leaderboard refresh with your achievements! </h4>
+                        <br>
+                        <p>
+                            Please remember to report your frame rate and tokens per frame with each submission.
+                        </p>
+                        <p>
+                            Email us at <a href="mailto:enxin.23@intl.zju.edu.cn"><i class="fas fa-envelope"></i></a> or <a href="mailto:wchai@uw.edu"><i class="fas fa-envelope"></i></a>.
+                        </p>
+                    </div>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="main-results-tab" data-bs-toggle="tab"
+                                data-bs-target="#benchmark-table-content" type="button" role="tab"
+                                aria-controls="main-results-tab" aria-selected="true">VDC</button>
+                        </li>
+                        <!-- <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="eurus-code-table-tab" data-bs-toggle="tab"
+                                data-bs-target="#eurus-code-table-content" type="button" role="tab"
+                                aria-controls="eurus-code-table-tab" aria-selected="false">VirtualHome</button>
+                        </li> -->
+                    </ul>
+                    <div class="tab-content" id="myTabContent">
+                        <div class="tab-pane fade show active" id="benchmark-table-content" role="tabpanel"
+                            aria-labelledby="benchmark-table-content">
+                            <div id="behavior-benchmark-main-table"></div>
+                        </div>
+                        <!-- <div class="tab-pane fade" id="eurus-code-table-content" role="tabpanel"
+                            aria-labelledby="eurus-code-table-content">
+                            <div id="virtualhome-benchmark-main-table"></div>
+                        </div> -->
+                    </div>
+                    <br>
+                    <p>
+                        We present a quantitative comparison between AuroraCap with existing state-of-the-art large multimodal models across various sections of structured captions in VDC. 
+                        # F stands for the frame sampling number of the input video, and TPF represents the visual tokens per frame. 
+                        The average key frame number in VDC is 10.
+                    </p>
+
+                </div>
+                <br>
+                <div class="collapsible-section">
+                    <button class="button is-fullwidth toggle-section" aria-controls="benchmark_table">
+                        <span>View benchmark</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <div id="benchmark_table" class="collapse-content">
+                        <iframe
+                        src="https://huggingface.co/datasets/wchai/Video-Detailed-Caption/embed/viewer/default/VDC_captions"
+                        frameborder="0"
+                        width="100%"
+                        height="560px"
+                        ></iframe>
+                    </div>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const button = document.querySelector('[aria-controls="benchmark_table"]');
+                        if (button) {
+                            button.click();
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Example video -->
+    <div class="video-container">
+        <h2 class="title is-2" style="text-align: center;">VDC Example</h2>
+        <br>
+        <table style="width: 80%; margin: 0 auto;">
+            <tr>
+                <td style="width: 50%; padding: 10px;">
+                    <video autoplay muted loop playsinline style="width: 100%; height: auto;">
+                        <source src="website/videos/vdc_1.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video> 
+                    <div class="collapsible-section">
+                        <button class="button is-fullwidth toggle-section" aria-controls="transition_table_vh_1">
+                            <span>View detailed strutured caption of case #1</span>
+                            <span class="icon is-small">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                        <div id="transition_table_vh_1" class="collapse-content">
+                            <table class="table is-striped is-hoverable" id="vh_logical_matching_score" style="width: 100%; table-layout: fixed; font-size: 0.9em;">
+                                <thead>
+                                    <tr> 
+                                        <th style="width: 15%;"><b>[short caption]</b></th>
+                                        <th style="width: 85%;">(26 words) In this video, two smartphones are compared side by side as they launch and run the game \'Angry Birds 2\', showcasing their performance and loading times. </th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 15%;"><b>[background caption]</b></th>
+                                        <th style="width: 85%;">(65 words) The video is set against a clean, white background that emphasizes the two smartphones placed side by side. The lighting is bright and even, creating a neutral atmosphere. The time displayed at the bottom of the screen counts up, indicating the duration of the gameplay. The environment is quiet, with no background noise, allowing the focus to remain on the visual performance of the devices.</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 15%;"><b>[main object caption]</b></th>
+                                        <th style="width: 85%;">(85 words) The main subjects are two smartphones, one on the left and one on the right, both displaying the game \'Angry Birds 2\'. The left phone shows a vibrant loading screen with colorful graphics, while the right phone initially displays a blank screen before transitioning to the game. The hands of the presenter are visible, interacting with the devices, tapping the screens to initiate the game. The presenter\'s fingers move swiftly, indicating a sense of urgency and excitement as they compare the responsiveness of both devices.</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 15%;"><b>[camera caption]</b></th>
+                                        <th style="width: 85%;">(130 words) The camera work is steady and focused, primarily using a medium shot that captures both smartphones in their entirety. The angle is slightly above the devices, providing a clear view of the screens and the presenter\'s hands. There are no significant camera movements; instead, the focus remains on the devices as they load the game. The video includes a timer overlay at the bottom, which counts the seconds, enhancing the comparative aspect of the performance test. The video opens with a visually striking presentation of two smartphones positioned side by side against a pristine white background, which serves to enhance the focus on the devices themselves. The lighting is bright and evenly distributed, creating a neutral and distraction-free atmosphere that allows viewers to concentrate on the smartphones and their performance.</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 15%;"><b>[detailed caption]</b></th>
+                                        <th style="width: 85%;">(146 words) The video opens with a visually striking presentation of two smartphones positioned side by side against a pristine white background, which serves to enhance the focus on the devices themselves. The lighting is bright and evenly distributed, creating a neutral and distraction-free atmosphere that allows viewers to concentrate on the smartphones and their performance. Both devices prominently display the YouTube application interface, featuring a video titled "Dart Moon Collision," which is highlighted as "#1 ON TRENDING" from the "NASA.gov Video" channel. Below the video pane, viewers can see the view counts and like/dislike statistics, along with a curated list of additional video suggestions at the bottom of the screens. A consistent timestamp of 6:12 PM is visible, adding a temporal context to the scene. A watermark logo is also present, likely indicating the content\'s publisher or owner, subtly reinforcing the source of the material being showcased.</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+                
+                <td style="width: 50%; padding: 10px;">
+                    <video autoplay muted loop playsinline style="width: 100%; height: auto;">
+                        <source src="website/videos/vdc_2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video> 
+                    <div class="collapsible-section">
+                        <button class="button is-fullwidth toggle-section" aria-controls="transition_table_vh_2">
+                            <span>View detailed strutured caption of case #2</span>
+                            <span class="icon is-small">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                        <div id="transition_table_vh_2" class="collapse-content">
+                            <table class="table is-striped is-hoverable" id="vh_logical_matching_score" style="width: 100%; table-layout: fixed; font-size: 0.9em;">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 16%; text-align: center; vertical-align: middle;"><b>[short caption]</b></th>
+                                        <th style="width: 84%; vertical-align: middle;">(25 words) A young woman with curly hair engages with her laptop, transitioning from a focused expression to a smile, reflecting a journey of discovery or realization.</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 16%; text-align: center; vertical-align: middle;"><b>[background caption]</b></th>
+                                        <th style="width: 84%; vertical-align: middle;">(70 words) The setting is minimalistic, featuring a soft blue backdrop that creates a calm and serene atmosphere. The lighting is bright and even, enhancing the subject\'s features and the smooth surface of the laptop. There are no distracting elements in the background, allowing the viewer to focus entirely on the subject\'s expressions and actions. The environment is quiet, with a sense of stillness that emphasizes the woman\'s concentration and eventual joy.</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 16%; text-align: center; vertical-align: middle;"><b>[main object caption]</b></th>
+                                        <th style="width: 84%; vertical-align: middle;">(93 words) The main subject, a young woman with a voluminous curly hairstyle, is dressed in a light blue button-up shirt. Initially, her expression is serious and contemplative as she gazes intently at the laptop screen, her brow slightly furrowed. As she interacts with the device, her posture is slightly hunched forward, indicating focus and engagement. Gradually, her expression shifts to one of delight, with a smile breaking across her face, suggesting a positive revelation or achievement. Her fingers move deftly over the laptop\'s keyboard, showcasing her active participation in whatever task she is undertaking.</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 16%; text-align: center; vertical-align: middle;"><b>[camera caption]</b></th>
+                                        <th style="width: 84%; vertical-align: middle;">(130 words) The camera work is steady and focused, primarily using a medium shot that captures both smartphones in their entirety. The angle is slightly above the devices, providing a clear view of the screens and the presenter\'s hands. There are no significant camera movements; instead, the focus remains on the devices as they load the game. The video includes a timer overlay at the bottom, which counts the seconds, enhancing the comparative aspect of the performance test. The video opens with a visually striking presentation of two smartphones positioned side by side against a pristine white background, which serves to enhance the focus on the devices themselves. The lighting is bright and evenly distributed, creating a neutral and distraction-free atmosphere that allows viewers to concentrate on the smartphones and their performance.</th>
+                                    </tr>
+                                    <tr>
+                                        <th style="width: 16%; text-align: center; vertical-align: middle;"><b>[detailed caption]</b></th>
+                                        <th style="width: 84%; vertical-align: middle;">(410 words) The video presents a captivating scene featuring a young woman with voluminous, curly hair, elegantly styled and framing her face. She is dressed in a light blue collared shirt that complements her complexion and adds a touch of calmness to the overall aesthetic. The setting is minimalistic, with a soft blue backdrop that enhances the serene atmosphere, creating a tranquil environment conducive to concentration. The lighting is bright and even, illuminating her features and the sleek surface of the laptop she is holding, while ensuring that no distracting elements are present in the background. This simplicity allows the viewer to focus entirely on her expressions and actions, which are central to the narrative.<br>As the video unfolds, the woman maintains a consistent posture, initially appearing serious and contemplative as she gazes intently at the laptop screen. Her brow is slightly furrowed, indicating deep thought and engagement with the task at hand. She leans slightly forward, her body language reflecting her focus and determination. The camera captures her in a series of close-up shots, providing an intimate view of her facial expressions and hand movements. The angles are primarily frontal, allowing the audience to connect with her emotional journey as she interacts with the device.<br>Throughout the sequence, the woman\'s expression transitions from one of concentration to a radiant smile, suggesting a journey of discovery or realization. As she navigates through the content on her laptop, her fingers move deftly over the keyboard, showcasing her active participation and engagement with whatever task she is undertaking. The smooth transitions between shots maintain a fluid narrative flow, with the focus subtly shifting between her face and the laptop screen. This technique emphasizes the connection between her emotional responses and the content she is interacting with, drawing the viewer deeper into her experience.<br>The overall composition of the video is clean and visually appealing, with a shallow depth of field that blurs the background slightly, ensuring that the viewer\'s attention remains on the subject. The stillness of the environment enhances the sense of concentration, while the eventual shift in her expression to one of delight signifies a positive revelation or achievement. This moment of joy, captured in her smile, serves as a poignant reminder of the satisfaction that can come from engaging with technology and the discoveries it can facilitate. The video encapsulates a moment of introspection and triumph, inviting the viewer to share in the woman\'s journey as she navigates her digital landscape.
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                    </div>
+                </td>
+
+                
+            </tr>
+        </table>
+    </div>
+
+
+    <!-- Abstract. -->
+    <section class="section" id="abstract">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered has-text-centered">
+                <div class="column is-four-fifths">
+                    <h2 class="title is-2">Abstract</h2>
+                    <div class="content has-text-justified">
+                        <p>
+                            <b>Baseline:</b> 
+                            Video detailed captioning is a key task which aims to generate comprehensive and coherent textual descriptions of video content, benefiting both video understanding and generation. 
+                            In this paper, we propose AuroraCap, a video captioner based on a large multimodal model. 
+                            We follow the simplest architecture design without additional parameters for temporal modeling. 
+                            To address the overhead caused by lengthy video sequences, we implement the token merging strategy, reducing the number of input visual tokens.
+                            Surprisingly, we found that this strategy results in little performance loss. 
+                            AuroraCap shows superior performance on various video and image captioning benchmarks, for example, obtaining a CIDEr of 88.9 on Flickr30k, beating GPT-4V (55.3) and Gemini-1.5 Pro (82.2). 
+                        </p>
+                        <p>
+                            <b>Benchmark and Metric:</b> 
+                            However, existing video caption benchmarks only include simple descriptions, consisting of a few dozen words, which limits research in this field. 
+                            Therefore, we develop VDC, a video detailed captioning benchmark with over one thousand carefully annotated structured captions. 
+                            In addition, we propose a new LLM-assisted metric VDCScore for bettering evaluation, which adopts a divide-and-conquer strategy to transform long caption evaluation into multiple short question-answer pairs. 
+                            With the help of human Elo ranking, our experiments show that this benchmark better correlates with human judgments of video detailed captioning quality. 
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- Method -->
+    <section class="section" id="embodied_agent_interface_detail">
+        <div class="container is-max-desktop">
+            <div class="hero-body">
+                    <h2 class="title is-2" style="text-align: center;">AuroraCap: A Efficient and Performant Video Detailed Captioner</h2>
+                    <br>
+                    <div class="content has-text-justified">
+                        <h3 class="title is-4">Architecture</h3>
+                        <p>
+                            <strong>LLaVA.<d-cite key="liu2024visual"></d-cite></strong> 
+                            To effectively leverage the capabilities of both the pre-trained LLM and visual model, LLaVA adapt a simple multilayer perceptron (MLP) projection layer to connect each patch tokens of image features into the word embedding space. 
+                        </p>
+                        <p>
+                            <strong>Token merging.<d-cite key="bolya2022token"></d-cite></strong> 
+                            To increase the throughput of existing ViT models, Token Merging is proposed to gradually combines similar tokens in a transformer to reduce the number of tokens passing through ViT models. 
+                            Token Merging has been proven to be effective on image and video classification tasks even without the need for training.
+                            We conduct frame-wise token merging in AuroraCap, where the feature is extracted by CLIP ViT-H<d-cite key="fang2023data"></d-cite> model. 
+                            We show token merging visualization examples from  COCO<d-cite key="lin2014microsoft"></d-cite>, VG<d-cite key="krishna2017visual"></d-cite>, SA-1B<d-cite key="kirillov2023segment"></d-cite> as follows:
+                            <d-figure>
+                                <figure class="l-body">
+                                    <div id='tomevis_div'></div>
+                                    <script src="https://d3js.org/d3.v7.min.js"></script>
+                                    <script src="website/javascript/tome_vis.js"></script>
+                                    <figcaption>
+                                        Token merging visualization. From left to right, the number of visual tokens representing the images are 490, 154, 18, and 6.
+                                    </figcaption>
+                                    </figure>
+                            </d-figure>
+                        </p>
+                        <br>
+                        <h3 class="title is-4">Training Recipe</h3>
+                        <p>
+                            We use over 20 million high-quality image/video-text pairs to train AuroraCap in three stages. The training datasets are released at <a href="https://huggingface.co/datasets/Reself/AuroraCap-trainset" target="_blank">HuggingFace</a>.
+                        </p>
+                        <p>
+                            <strong>Pretraining stage.</strong> 
+                            We first align visual features with the word embedding space of LLMs. 
+                            To achieve this, we freeze the pretrained ViT and LLM, training solely the vision-language connector. 
+                        </p>
+                        <p>
+                            <strong>Vision stage.</strong> 
+                            We unfreeze the pretrained ViT while freezing the LLM during vision stage and train with the public data among various computer vision tasks to get better generalization.
+                        </p>
+                        <p>
+                            <strong>Language stage.</strong> 
+                            Finally, we conduct end-to-end training, which means all the components are trainable, with the most high-quality public data during language stage. 
+                        </p>
+                        <div class="collapsible-section">
+                            <button class="button is-fullwidth toggle-section" aria-controls="transition_table_vh_3">
+                                <span>View traiset of AuroraCap</span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                            <div id="transition_table_vh_3" class="collapse-content">
+                                <iframe
+                                src="https://huggingface.co/datasets/wchai/AuroraCap-trainset/embed/viewer/default/projection"
+                                frameborder="0"
+                                width="100%"
+                                height="560px"
+                                ></iframe>
+                            </div>
+                        </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const button = document.querySelector('[aria-controls="transition_table_vh_3"]');
+                                if (button) {
+                                    button.click();
+                                }
+                            });
+                        </script>
+                    </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Benchmark -->
+    <section class="section" id="embodied_agent_interface_detail">
+        <div class="container is-max-desktop">
+            <div class="hero-body">
+                <h2 class="title is-2" style="text-align: center;">VDC: A New Video Detailed Captioning Benchmark</h2>
+                <br>
+                <div class="content has-text-justified">
+                    <h3 class="title is-4">Benchmark Collection and Processing</h3>
+                    <p>
+                        <strong>Video collection and processing.</strong>
+                        We building VDC upon Panda-70M<d-cite key="chen2024panda"></d-cite>, Ego4D<d-cite key="grauman2022ego4d"></d-cite>, Mixkit<d-cite key="mixkit"></d-cite>, Pixabay<d-cite key="pixabay"></d-cite>, and Pexels<d-cite key="pexels"></d-cite>. 
+                        We first split the video into clips and apply dense frame extraction, then manually replacing blurry frames with adjacent clear ones.
+                        <div class="collapsible-section">
+                            <button class="button is-fullwidth toggle-section" aria-controls="model_table">
+                                <span>View benchmark comparison for video captioning task</span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                            <div id="model_table" class="collapse-content">
+                                <table class="table is-striped is-hoverable" id="model_info">
+                                    <caption style="caption-side: top; text-align: center; color: black; font-style: italic;">
+                                        <b>Table 1 :</b> Benchmark comparison for video captioning task. Ave. Length indicates the average number of words per caption.
+                                    </caption>
+                                    <thead>
+                                        <tr>
+                                            <th class="tb-hdr">Dataset</th>
+                                            <th>Theme</th>
+                                            <th style="text-align: center; vertical-align: middle;"># Video</th>
+                                            <th style="text-align: center; vertical-align: middle;"># Clip</th>
+                                            <th style="text-align: center; vertical-align: middle;"># Caption</th>
+                                            <th style="text-align: center; vertical-align: middle;"># Word</th>
+                                            <th style="text-align: center; vertical-align: middle;"># Vocab.</th>
+                                            <th style="text-align: center; vertical-align: middle;">Ave. Length</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="italic">MSVD<d-cite key="chen2011collecting"></d-cite></td>
+                                            <td style="text-align: center; vertical-align: middle;">Open</td>
+                                            <td style="text-align: center; vertical-align: middle;">1,970</td>
+                                            <td style="text-align: center; vertical-align: middle;">1,970</td>
+                                            <td style="text-align: center; vertical-align: middle;">70,028</td>
+                                            <td style="text-align: center; vertical-align: middle;">607,339</td>
+                                            <td style="text-align: center; vertical-align: middle;">13,010</td>
+                                            <td style="text-align: center; vertical-align: middle;">8.67</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="italic">MSR-VTT<d-cite key="xu2016msr"></d-cite></td>
+                                            <td style="text-align: center; vertical-align: middle;">Open</td>
+                                            <td style="text-align: center; vertical-align: middle;">7,180</td>
+                                            <td style="text-align: center; vertical-align: middle;">10,000</td>
+                                            <td style="text-align: center; vertical-align: middle;">200,000</td>
+                                            <td style="text-align: center; vertical-align: middle;">1,856,523</td>
+                                            <td style="text-align: center; vertical-align: middle;">29,316</td>
+                                            <td style="text-align: center; vertical-align: middle;">9.28</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="italic">ActivityNet<d-cite key="krishna2017dense"></d-cite></td>
+                                            <td style="text-align: center; vertical-align: middle;">Open</td>
+                                            <td style="text-align: center; vertical-align: middle;">20,000</td>
+                                            <td style="text-align: center; vertical-align: middle;">100,000</td>
+                                            <td style="text-align: center; vertical-align: middle;">100,000</td>
+                                            <td style="text-align: center; vertical-align: middle;">1,340,000</td>
+                                            <td style="text-align: center; vertical-align: middle;">15,564</td>
+                                            <td style="text-align: center; vertical-align: middle;">13.40</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="italic">S-MiT<d-cite key="monfort2021spoken"></d-cite></td>
+                                            <td style="text-align: center; vertical-align: middle;">Open</td>
+                                            <td style="text-align: center; vertical-align: middle;">515,912</td>
+                                            <td style="text-align: center; vertical-align: middle;">515,912</td>
+                                            <td style="text-align: center; vertical-align: middle;">515,912</td>
+                                            <td style="text-align: center; vertical-align: middle;">5,618,064</td>
+                                            <td style="text-align: center; vertical-align: middle;">50,570</td>
+                                            <td style="text-align: center; vertical-align: middle;">10.89</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="italic">M-VAD<d-cite key="torabi2015using"></d-cite></td>
+                                            <td style="text-align: center; vertical-align: middle;">Movie</td>
+                                            <td style="text-align: center; vertical-align: middle;">92</td>
+                                            <td style="text-align: center; vertical-align: middle;">48,986</td>
+                                            <td style="text-align: center; vertical-align: middle;">55,905</td>
+                                            <td style="text-align: center; vertical-align: middle;">519,933</td>
+                                            <td style="text-align: center; vertical-align: middle;">18,269</td>
+                                            <td style="text-align: center; vertical-align: middle;">9.30</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="italic">MPII-MD<d-cite key="rohrbach2013translating"></d-cite></td>
+                                            <td style="text-align: center; vertical-align: middle;">Movie</td>
+                                            <td style="text-align: center; vertical-align: middle;">94</td>
+                                            <td style="text-align: center; vertical-align: middle;">68,337</td>
+                                            <td style="text-align: center; vertical-align: middle;">68,375</td>
+                                            <td style="text-align: center; vertical-align: middle;">653,467</td>
+                                            <td style="text-align: center; vertical-align: middle;">24,549</td>
+                                            <td style="text-align: center; vertical-align: middle;">9.56</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="italic">Youcook2<d-cite key="zhou2018towards"></d-cite></td>
+                                            <td style="text-align: center; vertical-align: middle;">Cooking</td>
+                                            <td style="text-align: center; vertical-align: middle;">2,000</td>
+                                            <td style="text-align: center; vertical-align: middle;">15,400</td>
+                                            <td style="text-align: center; vertical-align: middle;">15,400</td>
+                                            <td style="text-align: center; vertical-align: middle;">121,418</td>
+                                            <td style="text-align: center; vertical-align: middle;">2,583</td>
+                                            <td style="text-align: center; vertical-align: middle;">7.88</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="italic">Charades<d-cite key="sigurdsson2016hollywood"></d-cite></td>
+                                            <td style="text-align: center; vertical-align: middle;">Human</td>
+                                            <td style="text-align: center; vertical-align: middle;">9,848</td>
+                                            <td style="text-align: center; vertical-align: middle;">10,000</td>
+                                            <td style="text-align: center; vertical-align: middle;">27,380</td>
+                                            <td style="text-align: center; vertical-align: middle;">607,339</td>
+                                            <td style="text-align: center; vertical-align: middle;">13,000</td>
+                                            <td style="text-align: center; vertical-align: middle;">22.18</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="italic">VATEX<d-cite key="wang2019vatex"></d-cite></td>
+                                            <td style="text-align: center; vertical-align: middle;">Open</td>
+                                            <td style="text-align: center; vertical-align: middle;">41,300</td>
+                                            <td style="text-align: center; vertical-align: middle;">41,300</td>
+                                            <td style="text-align: center; vertical-align: middle;">413,000</td>
+                                            <td style="text-align: center; vertical-align: middle;">4,994,768</td>
+                                            <td style="text-align: center; vertical-align: middle;">44,103</td>
+                                            <td style="text-align: center; vertical-align: middle;">12.09</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="italic">VDC (ours)</td>
+                                            <td style="text-align: center; vertical-align: middle;">Open</td>
+                                            <td style="text-align: center; vertical-align: middle;">1,027</td>
+                                            <td style="text-align: center; vertical-align: middle;">1,027</td>
+                                            <td style="text-align: center; vertical-align: middle;">1,027</td>
+                                            <td style="text-align: center; vertical-align: middle;">515,441</td>
+                                            <td style="text-align: center; vertical-align: middle;">20,419</td>
+                                            <td class="highlight-red" style="text-align: center; vertical-align: middle;">500.91</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const button = document.querySelector('[aria-controls="model_table"]');
+                                if (button) {
+                                    button.click();
+                                }
+                            });
+                        </script>
+                    </p>
+                    <p>
+                        <strong>Structured detailed captions construction pipeline.</strong>
+                        We develop a structured detailed captions construction pipeline to generate extra detailed descriptions from various perspectives, significantly extending the length and enhancing the richness compared to previous benchmarks. 
+                        The structured detailed captions includes camera, short, background, main object, and detailed captions.
+                        <div class="collapsible-section">
+                            <button class="button is-fullwidth toggle-section" aria-controls="transition_table_vh_5">
+                                <span>View definition of structured detailed captions</span>
+                                <span class="icon is-small">
+                                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                </span>
+                            </button>
+                            <div id="transition_table_vh_5" class="collapse-content">
+                                <ol style="margin-left: 20px;">
+                                    <li style="margin-bottom: 3px;"><strong>Camera caption.</strong>
+                                        Describe the camera work in detail, including shot types, angles, movements, transitions, and any special effects used to enhance the video.
+                                    </li>
+                                    <li style="margin-bottom: 3px;"><strong>Short caption.</strong>
+                                        Summarize the video in one detailed sentence, capturing key actions and the overall mood.
+                                    </li>
+                                    <li style="margin-bottom: 3px;"><strong>Background caption.</strong>
+                                        Provide a detailed description of the background, including objects, location, weather, time, and any dynamic elements.
+                                    </li>
+                                    <li style="margin-bottom: 3px;"><strong>Main Object caption.</strong>
+                                        Give a thorough description of the main subject's actions, attributes, interactions, and movements throughout the video frames.
+                                    </li>
+                                    <li style="margin-bottom: 3px;"><strong>Detailed caption.</strong>
+                                        Generate a detailed, vivid caption for the video, covering all categories, ensuring it's engaging, informative, and rich enough for AI to recreate the video content.
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const button = document.querySelector('[aria-controls="transition_table_vh_5"]');
+                                if (button) {
+                                    button.click();
+                                }
+                            });
+                        </script>
+                        
+                    </p>
+                    <p>
+                        To generate detailed, fine-grained, and accurate captions, we leverage GPT-4o to produce video descriptions. 
+                        We design a hierarchical prompt strategy to efficiently obtain accurate structured captions and detailed captions in two conversation rounds: (1) Structured Captions Generation and (2) Detailed Captions Integration. 
+                    </p>
+                    <br>
+                    <d-figure id="fig-vision_connector">
+                        <figure>
+                            <img data-zoomable="" draggable="false" src="website/img/vdc.png" alt="Video length in VDC" style="width: 80%;display: block; margin: 0 auto;">
+                            <figcaption>
+                                Distribution of the video length and structured caption length in VDC.
+                            </figcaption>
+                        </figure>
+                    </d-figure>
+                </div>
+                <div class="content has-text-justified">
+                    <h3 class="title is-4">VDCscore: Evaluating Detailed Captions with LLMs</h3>
+                    <p>
+                        We introduce VDCscore, a novel quantitative metric that utilizes LLMs to evaluate the similarity between predicted and ground-truth detailed captions through a divide-and-conquer approach. 
+                        The core idea of VDCscore is to decompose long detailed captions into multiple short question-answering pairs, avergae the evaluation of each pair as the final result.
+                    </p>
+                    <d-figure id="fig-vision_connector"></d-figure>
+                        <figure>
+                            <img data-zoomable="" draggable="false" src="website/img/vdcscore.png" alt="" style="width: 80%;display: block; margin: 0 auto;">
+                            <figcaption>
+                                VDCscore evaluation pipeline.
+                            </figcaption>
+                        </figure>
+                    </d-figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Evaluation-->
+    <section class="section" id="embodied_agent_interface_detail">
+        <div class="container is-max-desktop">
+            <div class="hero-body">
+                <h2 class="title is-2" style="text-align: center;">Evaluation</h2>
+                <br>
+                <div class="content has-text-justified">
+                    <h3 class="title is-4">Benchmarking video detailed captioning.</h3>
+                    <p>
+                        AuroraCap achieves superior performance in video detailed captioning while utilizing significantly fewer visual tokens than other models, fully highlighting the efficiency of AuroraCap.
+                    </p>
+                    <d-figure id="fig-vision_connector">
+                        <figure>
+                            <img data-zoomable="" draggable="false" src="website/img/vdc_benchmark.png" alt="Video length in VDC" style="width: 80%;display: block; margin: 0 auto;">
+                            <figcaption>
+                                Comparison between various models with different number of visual tokens input on VDC.
+                            </figcaption>
+                        </figure>
+                    </d-figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+    <!-- Ablation Study -->
+    <section class="hero teaser">
+        <div class="container is-max-desktop">
+            <div class="hero-body">
+                <h3 class="title is-3">Ablation Study</h3>
+                <p>
+                    As a core training and inference strategy of AuroraCap, token merging plays a significant role in reducing the number of visual tokens. 
+                    We further study how the video detailed captioning capability is influenced by token merge ratio.
+                </p>
+                <d-figure id="fig-vision_connector">
+                    <figure>
+                        <img data-zoomable="" draggable="false" src="website/img/tome.png" alt="Ablation study" style="width: 80%;display: block; margin: 0 auto;">
+                        <figcaption>
+                            Visualization of token merging ratio on various image and video understanding tasks. 
+                            The solid line indicates the average performance across various tasks, and the shaded area represents performance variability. 
+                        </figcaption>
+                    </figure>
+                </d-figure>
+                <br>
+                <p>
+                    We define the performance percentage as the proportion between the highest and lowest values on the entire performance curve. 
+                    We highlight the token merging ratio when achieving 90% and 80% performance with the dash line and filled area. 
+                    We found that token merging significantly reduces the number of tokens while maintaining minimal performance drop, and even showing improvement in some tasks. 
+                </p>
+                <div class="collapsible-section">
+                    <button class="button is-fullwidth toggle-section" aria-controls="vis_ablation">
+                        <span>View token merging ratio curve on various tasks.</span>
+                        <span class="icon is-small">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                    <div id="vis_ablation" class="collapse-content">
+                        <d-figure>
+                            <figure class="l-body">
+                                <div id="singlecurve_div">
+                                    <div id="single_curve">
+                                        <script src="website/javascript/single_curve.js"></script>
+                                    </div>
+                                </div>
+                                <figcaption>
+                                    Ablation study on token merging ratio on various image and video understanding tasks.
+                                </figcaption>
+                            </figure>
+                        </d-figure>
+                    </div>
+                </div>
+                <br>
+                <p>
+                    To assess the inference speed, we utilize the inference time per video question-answering pair in seconds (TPV) as an evaluative metric. 
+                    Figure below indicates the minimum TPV achievable in our settings including with or without token merging and SGLang across seven video understanding datasets. 
+                    Reducing the visual tokens and using SGLang result in excellent inference times per video question-answering pair while all the datasets with short video and question inputs. 
+                </p>
+                <d-figure id="fig-vision_connector">
+                    <figure>
+                        <img data-zoomable="" draggable="false" src="website/img/sglang.png" alt="Video length in VDC" style="width: 80%;display: block; margin: 0 auto;">
+                        <figcaption>
+                            Comparison between different inference settings: 
+                            <b>A</b>: R<sub>vtk</sub> = 1.0</span>, without SGLang, 
+                            <b>B</b>: R<sub>vtk</sub> = 0.1</span>, without SGLang, 
+                            <b>C</b>: R<sub>vtk</sub> = 1.0</span>, with SGLang, 
+                            <b>D</b>: R<sub>vtk</sub> = 0.1</span>, with SGLang. 
+                            The number indicates the maximum inference time in seconds for each benchmark.
+                        </figcaption>
+                    </figure>
+                </d-figure>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Case Study -->
+    <section class="hero teaser"></section>
+        <div class="container is-max-desktop">
+            <div class="hero-body">
+                <h3 class="title is-3">Case Study</h3>
+                <p">
+                    We perform an extensive case study of AuroraCap on a variety of videos for video detailed captioning. 
+                    As shown as followings, AuroraCap is capable of providing excellent detailed captions regarding the camera motion, background and main object with less hallucination. 
+                </p>
+    
+                <div id="cases_div">
+                    <div id="video_overlay">
+                        <script src="website/javascript/cases.js"></script>
+                    </div>
+                </div>  
+
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Previous work -->
+    <h2 class="title is-2" style="text-align: center;">Our Related Work</h2>
+    <section class="section" id="related_work" style="border: 2px dashed #ccc; border-radius: 8px; padding: 5px; margin: 5px auto; max-width: 50%;">  
+        <div class="container" style="max-width: 100%;">
+            <div class="hero-body" style="padding: 5px;">
+                <div class="has-text-centered">
+                    <h5 style="font-weight: bold; margin: 3px 0;">
+                        MovieChat: From Dense Token to Sparse Memory for Long Video Understanding
+                    </h5>
+                    <p style="color: hsl(271, 100%, 27%); font-weight: bold; text-align: center; margin: 3px 0;">The first long-form video open-ended benchmark.</p>
+                    <div class="'is-size-4 publication-authors">
+                        <span class="author-block" style="color: darkred; font-weight: bold;">CVPR 2024</span>
+                    </div>
+                </div>
+                <div class="content has-text-justified">
+                    <div class="column has-text-centered">
+                        <div class="publication-links">
+                            <!-- Paper Link. -->
+                            <span class="link-block">
+                                <a href="https://arxiv.org/abs/2307.16449v4" class="btn btn-outline-dark"
+                                    role="button">
+                                    <span class="icon">
+                                        <i class="ai ai-arxiv"></i>
+                                    </span>
+                                    <span>arXiv</span>
+                                </a> &nbsp;&nbsp;
+                            </span>
+
+                            <!-- Leaderboard Link. -->
+                            <span class="link-block">
+                                <a href="https://github.com/rese1f/MovieChat?tab=readme-ov-file#-moviechat-1k-leaderboard" class="btn btn-outline-dark"
+                                    role="button">
+                                    <span class="icon">
+                                        <i class="fab fa-github"></i>
+                                    </span>
+                                    <span>Leaderboard</span>
+                                </a> &nbsp;&nbsp;
+                            </span>
+
+                            <!-- Benchmark Link. -->
+                            <span class="link-block">
+                                <a href="https://huggingface.co/datasets/Enxin/MovieChat-1K-test" class="btn btn-outline-dark" role="button" style="display: inline-flex; align-items: center;">
+                                    <span class="icon" style="display: inline-flex; align-items: center;">
+                                        <img src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg" alt="Hugging Face" style="width: 20px; height: 18px; margin-right: 5px;">
+                                    </span>
+                                    <span>MovieChat-1K Benchmark</span>
+                                </a> &nbsp;&nbsp;
+                            </span>
+
+                            <!-- Code Link. -->
+                            <span class="link-block">
+                                <a href="https://github.com/rese1f/MovieChat" class="btn btn-outline-dark" role="button">
+                                    <span class="icon">
+                                        <i class="fab fa-github"></i>
+                                    </span>
+                                    <span>Code</span>
+                                </a> &nbsp;&nbsp;
+
+                            </span>
+                                                                                
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="section" id="BibTeX">
+        <div class="container is-max-desktop content">
+            <h2 class="title">BibTeX</h2>
+            <pre>
+                @article{auroracap,
+                    title={AuroraCap: Efficient, Performant Video Detailed Captioning and a New Benchmark},
+                    author={Wenhao Chai, Enxin Song, Yilun Du, Chenlin Meng, Vashisht Madhavan, Omer Bar-Tal, Jeng-Neng Hwang, Saining Xie, Christopher D. Manning},
+                    year={2024},
+                    journal={arXiv preprint arXiv:2410.03051},
+                }
+            </pre>
+        </div>
+    </section>
+
+
+    <footer class="footer">
+        <div align="center" class="container">
+            <div class="columns is-centered">
+                <div class="content is-small">
+                    This website templated is borrowed from <a
+                        href="https://github.com/nerfies/nerfies.github.io">nerfies</a>.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+
+
+</html>
