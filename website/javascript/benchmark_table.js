@@ -101,107 +101,15 @@ const colorFormatterObject = createColorFormatter(
 
 document.addEventListener('DOMContentLoaded', function () {
     Promise.all([
-        // fetch('website/data/virtualhome_total_benchmark.json').then(response => response.json()),
         fetch('website/data/behavior_total_benchmark.json').then(response => response.json()),
     ])
         .then(([
-            // virtualhome_total_benchmark_data,
             behavior_total_benchmark_data,
         ]) => {
             var getColumnMinMax = (data, field) => {
                 let values = data.map(item => item[field]).filter(val => val !== "-").map(Number);
                 return { min: Math.min(...values), max: Math.max(...values) };
             };
-
-            // var virtualhome_columns = [
-            //     {
-            //         title: "Model Family",
-            //         field: "model",
-            //         widthGrow: 1.5,
-            //         minWidth: 180
-            //     },
-            //     {
-            //         title: "Access",
-            //         field: "access",
-            //         widthGrow: 0.9,
-            //         minWidth: 120
-            //     },
-            //     {
-            //         title: "Release<br>Date",
-            //         field: "release",
-            //         widthGrow: 0.9,
-            //         minWidth: 120
-            //     },
-            //     {
-            //         title: "Overall<br>Perf.",
-            //         field: "overall_performance",
-            //         formatter: "progress",
-            //         minWidth: 90,
-            //         formatterParams: {
-            //             min: 0, max: 80,
-            //             legend: true,
-            //             color: barColorFn,
-            //         },
-            //     },
-            //     {
-            //         title: "Goal<br>Interpretation",
-            //         columns: [{
-            //             title: "F1",
-            //             field: "goal_interpretation_f1",
-            //             hozAlign: "center",
-            //             formatter: colorFormatterGoalInt,
-            //             minWidth: 90
-            //         }]
-            //     },
-            //     {
-            //         title: "Action Sequencing",
-            //         columns: [
-            //             { title: "Task<br>SR", field: "action_sequencing_task_sr", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 90, responsive: 2},
-            //             { title: "Exec.<br>SR", field: "action_sequencing_execution_sr", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 90, responsive: 2 },
-            //         ]
-            //     },
-            //     {
-            //         title: "Subgoal Decomposition",
-            //         columns: [
-            //             { title: "Task<br>SR", field: "subgoal_decomposition_task_sr", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 90 },
-            //             { title: "Exec.<br>SR", field: "subgoal_decomposition_execution_sr", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 90 },
-            //         ]
-            //     },
-            //     {
-            //         title: "Transition Modeling",
-            //         columns: [
-            //             { title: "F1", field: "transition_modeling_f1", hozAlign: "center", formatter: colorFormatterTrans, minWidth: 90 },
-            //             { title: "Planner<br>SR", field: "transition_modeling_planner_sr", hozAlign: "center", formatter: colorFormatterTrans, minWidth: 90 },
-            //         ]
-            //     },
-            // ];
-
-            // virtualhome_columns.forEach(column => {
-            //     if (column.columns) {
-            //         column.columns.forEach(subColumn => {
-            //             let { min, max } = getColumnMinMax(virtualhome_total_benchmark_data, subColumn.field);
-            //             subColumn.formatterParams = { min, max };
-            //         });
-            //     } else if (column.field !== "overall_performance") {
-            //         let { min, max } = getColumnMinMax(virtualhome_total_benchmark_data, column.field);
-            //         column.formatterParams = { min, max };
-            //     }
-            // });
-
-            // var virtualhome_table = new Tabulator("#virtualhome-benchmark-main-table", {
-            //     data: virtualhome_total_benchmark_data,
-            //     layout: "fitColumns",
-            //     responsiveLayout: "collapse",
-            //     responsiveLayoutCollapseStartOpen: false,
-            //     movableColumns: false,
-            //     initialSort: [
-            //         { column: "overall_performance", dir: "desc" },
-            //     ],
-            //     columnDefaults: {
-            //         tooltip: true,
-            //     },
-            //     columns: virtualhome_columns
-            // });
 
             var behavior_columns = [
                 {
@@ -286,4 +194,3 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
 })
-

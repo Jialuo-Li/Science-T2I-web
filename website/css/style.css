@@ -240,3 +240,33 @@ h3 {
         font-size: 1rem;
     }
 }
+
+
+/* 添加竖线分隔 */
+.tabulator-cell {
+    border-right: 1px solid #ddd; /* 添加右边框 */
+}
+
+/* 移除最后一列的右边框 */
+.tabulator-header-contents .tabulator-col:last-child .tabulator-col-content,
+.tabulator-cell:last-child {
+    border-right: none;
+}
+
+/* 大标题居中 */
+.tabulator-col-group .tabulator-col-title {
+    text-align: center;
+}
+
+/* 使用 grid-column 使大标题跨越所有子列 */
+.tabulator-col-group[data-field="Physics"] .tabulator-col-title {
+    grid-column: 3 / 13; /* 假设 "Physics" 列从第 3 列开始，到第 12 列结束 */
+}
+
+.tabulator-col-group[data-field="Chemistry"] .tabulator-col-title {
+    grid-column: 13 / 17; /* 假设 "Chemistry" 列从第 13 列开始，到第 16 列结束 */
+}
+
+.tabulator-col-group[data-field="Biology"] .tabulator-col-title {
+    grid-column: 17 / 22; /* 假设 "Biology" 列从第 17 列开始，到第 21 列结束 */
+}
