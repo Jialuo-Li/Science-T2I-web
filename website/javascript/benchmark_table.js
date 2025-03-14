@@ -127,35 +127,35 @@ document.addEventListener('DOMContentLoaded', function () {
                 {
                     title: "Physics",
                     columns: [
-                        { title: "GA", field: "avg_ga", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
-                        { title: "SO", field: "avg_so", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
-                        { title: "ME", field: "avg_me", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
-                        { title: "AB", field: "avg_ab", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
-                        { title: "BU", field: "avg_bu", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
-                        { title: "DI", field: "avg_di", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
-                        { title: "EL", field: "avg_el", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
-                        { title: "EV", field: "avg_ev", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
-                        { title: "LI", field: "avg_li", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
-                        { title: "Avg", field: "avg_phy", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 70 },
+                        { title: "GA", field: "avg_ga", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 60 },
+                        { title: "SO", field: "avg_so", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 60 },
+                        { title: "ME", field: "avg_me", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 60 },
+                        { title: "AB", field: "avg_ab", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 60 },
+                        { title: "BU", field: "avg_bu", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 60 },
+                        { title: "DI", field: "avg_di", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 60 },
+                        { title: "EL", field: "avg_el", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 60 },
+                        { title: "EV", field: "avg_ev", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 60 },
+                        { title: "LI", field: "avg_li", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 60 },
+                        { title: "Avg", field: "avg_phy", hozAlign: "center", formatter: colorFormatterGoalInt, minWidth: 60 },
                     ]
                 },
                 {
                     title: "Chemistry",
                     columns: [
-                        { title: "RU", field: "avg_ru", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 70 },
-                        { title: "IM", field: "avg_im", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 70 },
-                        { title: "FR", field: "avg_fr", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 70 },
-                        { title: "Avg", field: "avg_chem", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 70 },
+                        { title: "RU", field: "avg_ru", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 60 },
+                        { title: "IM", field: "avg_im", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 60 },
+                        { title: "FR", field: "avg_fr", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 60 },
+                        { title: "Avg", field: "avg_chem", hozAlign: "center", formatter: colorFormatterActionSeq, minWidth: 60 },
                     ]
                 },
                 {
                     title: "Biology",
                     columns: [
-                        { title: "LR", field: "avg_lr", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 70 },
-                        { title: "WR", field: "avg_wr", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 70 },
-                        { title: "SC", field: "avg_sc", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 70 },
-                        { title: "RI", field: "avg_ri", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 70 },
-                        { title: "Avg", field: "avg_bio", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 70 },
+                        { title: "LR", field: "avg_lr", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 60 },
+                        { title: "WR", field: "avg_wr", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 60 },
+                        { title: "SC", field: "avg_sc", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 60 },
+                        { title: "RI", field: "avg_ri", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 60 },
+                        { title: "Avg", field: "avg_bio", hozAlign: "center", formatter: colorFormatterSubgoal, minWidth: 60 },
                     ]
                 }
             ];

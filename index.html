@@ -246,25 +246,75 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="main-results-tab" data-bs-toggle="tab"
                                 data-bs-target="#benchmark-table-content" type="button" role="tab"
-                                aria-controls="main-results-tab" aria-selected="true">VDC</button>
+                                aria-controls="main-results-tab" aria-selected="true">Science-T2I-S</button>
                         </li>
-                        <li class="nav-item" role="presentation">
+                        <!-- <li class="nav-item" role="presentation">
                             <button class="nav-link" id="eurus-code-table-tab" data-bs-toggle="tab"
                                 data-bs-target="#eurus-code-table-content" type="button" role="tab"
                                 aria-controls="eurus-code-table-tab" aria-selected="false">VirtualHome</button>
-                        </li>
+                        </li> -->
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="benchmark-table-content" role="tabpanel"
                             aria-labelledby="benchmark-table-content">
                             <div id="behavior-benchmark-main-table"></div>
                         </div>
-                        <div class="tab-pane fade" id="eurus-code-table-content" role="tabpanel"
+                        <!-- <div class="tab-pane fade" id="eurus-code-table-content" role="tabpanel"
                             aria-labelledby="eurus-code-table-content">
                             <div id="virtualhome-benchmark-main-table"></div>
-                        </div>
+                        </div> -->
                     </div>
                     <br>
+
+                    <table class="js-sort-table" id="results" style="margin-left: auto; margin-right: auto;">
+                        <thead>
+                          <tr>
+                            <th rowspan="2" class="no-sort" style="vertical-align: middle; width: 50px;" data-js-sort-colNum="none"><strong>#</strong></th>
+                            <th rowspan="2" class="no-sort" style="vertical-align: middle; width: 180px;" data-js-sort-colNum="none"><strong>Model</strong></th>
+                            <th rowspan="2" class="no-sort" style="vertical-align: middle; width: 50px;" data-js-sort-colNum="none"><strong>LLM <br>Params</strong></th>
+                            <th rowspan="2" class="no-sort" style="vertical-align: middle; width: 100px;" data-js-sort-colNum="none"><strong>Frames</strong></th>
+                            <th rowspan="2" class="no-sort" style="vertical-align: middle; width: 110px;" data-js-sort-colNum="none"><strong>Date</strong></th>
+                            <th colspan="2" style="vertical-align: middle; width: 300px;" data-js-sort-colNum="6"><strong>Overall (%)</strong></th>
+                            <th colspan="2" style="vertical-align: middle; width: 300px;" data-js-sort-colNum="8"><strong>Short Video (%)</strong></th>
+                            <th colspan="2" style="vertical-align: middle; width: 300px;" data-js-sort-colNum="10"><strong>Medium Video (%)</strong></th> 
+                            <th colspan="2" style="vertical-align: middle; width: 300px;" data-js-sort-colNum="12"><strong>Long Video (%)</strong></th> 
+                          </tr>
+                          <tr>
+                            <th data-js-sort-colNum="5"><strong>w/o subs</strong></th>
+                            <th data-js-sort-colNum="6"><strong>w subs</strong></th>
+                            <th data-js-sort-colNum="7"><strong>w/o subs</strong></th>
+                            <th data-js-sort-colNum="8"><strong>w subs</strong></th>
+                            <th data-js-sort-colNum="9"><strong>w/o subs</strong></th>
+                            <th data-js-sort-colNum="10"><strong>w subs</strong></th>
+                            <th data-js-sort-colNum="11"><strong>w/o subs</strong></th>
+                            <th data-js-sort-colNum="12"><strong>w subs</strong></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+            
+                          <tr>
+                            <td style="vertical-align: middle;"></td>
+                            <td style="text-align: left; padding: 2px 10px;">
+                              <b class="">
+                                <a href="https://storage.googleapis.com/deepmind-media/gemini/gemini_v1_5_report.pdf" class="ext-link" style="font-size: 16px; margin-left: 5px;">Gemini 1.5 Pro</a>
+                                <p style="font-size: 12px; margin-left: 5px; color: #858383;">Google</p>
+                              </b>
+                            </td>
+                            <td style="vertical-align: middle;">- </td>
+                            <td style="vertical-align: middle;">1/0.5 fps<sup>1*</sup> </td>
+                            <td style="vertical-align: middle;">2024-06-15</td>
+                            <td style="vertical-align: middle;"><b class="">75.0</b></td>
+                            <td style="vertical-align: middle;"><b class="">81.3</b></td>
+                            <td style="vertical-align: middle;">81.7</td>
+                            <td style="vertical-align: middle;">84.5</td>
+                            <td style="vertical-align: middle;">74.3</td>
+                            <td style="vertical-align: middle;">81.0</td>
+                            <td style="vertical-align: middle;">67.4</td>
+                            <td style="vertical-align: middle;">77.4</td>                                 
+                          </tr>
+                        </tbody>
+                    </table>
+
                     <p>
                         We present a quantitative comparison between AuroraCap with existing state-of-the-art large multimodal models across various sections of structured captions in VDC. 
                         # F stands for the frame sampling number of the input video, and TPF represents the visual tokens per frame. 
