@@ -1,6 +1,6 @@
 [
   {
-    "model": "VideoChat-Flash-7B",
+    "model": "LLaVA-OV-7B",
     "frames": "64",
     "tpf": "16",
     "avg_acc": 42.92,
